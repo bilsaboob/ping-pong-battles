@@ -1,0 +1,56 @@
+page-ranking {
+
+  .ranking-card {
+    height: 100px;
+
+    .ranking-position {
+      font-size: 30px;
+    }
+
+    .player-avatar-icon {
+      margin-left: 30px;
+      max-width: 50px;
+      max-height: 50px;
+      width: 50px;
+      height: 50px;
+    }
+
+    .player-name {
+      margin-left: 10px;
+      font-size: 20px;
+    }
+
+    .player-toggle-icon {
+      font-size: 40px;
+      color: forestgreen;
+    }
+
+    .player-remove-icon {
+      font-size: 40px;
+      color: darkred;
+    }
+
+  }
+
+  .ranking-card.new-player {
+    padding-top: 15px;
+
+    .ranking-position {
+      margin-left: 25px;
+    }
+
+    .player-name {
+      margin-left: 10px;
+      font-size: 20px;
+    }
+  }
+
+  .battle-players-list {
+    padding-bottom: 20px;
+
+    ion-list-header {
+      margin-bottom: 0;
+    }
+  }
+
+}

@@ -1,0 +1,125 @@
+<ion-header>
+  <ion-navbar text-center>
+    <button ion-button menuToggle left>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      SKF Weekly Ping-Pong CUP
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="beginAddPlayer()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+      <button ion-button icon-only (click)="beginEditPlayers()">
+        <ion-icon name="remove"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+  <ion-list class="battle-players-list">
+    <ion-list-header text-center>
+      BATTLE
+    </ion-list-header>
+    <ion-grid>
+      <ion-row>
+        <ion-col>
+          <ion-card *ngIf="hasPlayerOne">
+            <ion-row align-items-center>
+              <ion-col col-2 class="player-avatar-icon">
+                <ion-avatar>
+                  <img [src]="playerOne.avatarIconUrl">
+                </ion-avatar>
+              </ion-col>
+              <ion-col ion-item class="player-name">
+                {{playerOne.firstName}} {{playerOne.lastName}}
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+        <ion-col *ngIf="hasPlayerOne || hasPlayerTwo" col-auto text-center align-self-center>
+          - VS -
+        </ion-col>
+        <ion-col>
+          <ion-card *ngIf="hasPlayerTwo">
+            <ion-row align-items-center>
+              <ion-col col-2 class="player-avatar-icon">
+                <ion-avatar>
+                  <img [src]="playerTwo.avatarIconUrl">
+                </ion-avatar>
+              </ion-col>
+              <ion-col ion-item class="player-name">
+                {{playerTwo.firstName}} {{playerTwo.lastName}}
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+      <ion-row *ngIf="hasPlayerOne || hasPlayerTwo" text-center align-self-center>
+        <ion-col></ion-col>
+        <ion-col col-auto>
+          <button ion-button color="light" [disabled]="!hasPlayerOne || !hasPlayerTwo" (click)="startBattle()">FIGHT</button>
+        </ion-col>
+        <ion-col></ion-col>
+      </ion-row>
+    </ion-grid>
+  </ion-list>
+
+  <ion-list class="ranked-players-list">
+    <ion-list-header text-center>
+      RANKED PLAYERS
+    </ion-list-header>
+
+    <ion-card *ngFor="let ranking of rankings"
+              [class.ranking-card]="true"
+              [class.player-toggled]="isPlayerToggled(ranking.player.id)">
+      <ion-item>
+        <button ion-item (click)="toggleOrRemovePlayer(ranking.player)">
+          <ion-row align-items-center>
+            <ion-col col-auto class="ranking-position">
+              #{{ranking.ranking}}
+            </ion-col>
+            <ion-col col-auto class="player-avatar-icon">
+              <ion-avatar>
+                <img [src]="ranking.player.avatarIconUrl">
+              </ion-avatar>
+            </ion-col>
+            <ion-col class="player-name">
+              {{ ranking.player.firstName }} {{ ranking.player.lastName }}
+            </ion-col>
+            <ion-icon *ngIf="!isEditPlayersMode && isPlayerToggled(ranking.player.id)" name="checkmark-circle" class="player-toggle-icon"></ion-icon>
+            <ion-icon *ngIf="isEditPlayersMode" name="remove-circle" class="player-remove-icon"></ion-icon>
+          </ion-row>
+        </button>
+      </ion-item>
+    </ion-card>
+
+    <ion-card *ngIf="showNewPlayerInput"
+              [class.ranking-card]="true"
+              [class.new-player]="true">
+        <ion-grid>
+          <ion-row align-items-center>
+            <ion-col col-auto class="ranking-position">
+              #{{lastRanking}}
+            </ion-col>
+            <ion-col col-2 class="player-avatar-icon">
+              <ion-avatar>
+                <img [src]="newPlayer.avatarIconUrl">
+              </ion-avatar>
+            </ion-col>
+            <ion-col ion-item class="player-name">
+              <ion-input type="text" clearInput autofocus placeholder="NEW PLAYER NAME"
+                         [(ngModel)]="newPlayer.firstName"
+                         (blur)="finishAddPlayer()"
+                         (keypress)="onNewPlayerNameKeyPress($event.keyCode)">
+              </ion-input>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+    </ion-card>
+
+  </ion-list>
+
+</ion-content>
